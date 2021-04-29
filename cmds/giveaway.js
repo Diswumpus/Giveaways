@@ -7,6 +7,8 @@ module.exports = {
   category: "fun",
   execute: async (message, Member, args) => {
     if (!args[0]) return message.channel.send(`You did not specify your time!`);
+    const opps = message.client.emojis.cache.find(em => em.name === "ablobglitch");
+    const think = message.client.emojis.cache.find(em => em.name === "ablobthinkingeyes");
     if (
       !args[0].endsWith("d") &&
       !args[0].endsWith("h") &&
@@ -15,16 +17,18 @@ module.exports = {
       return message.channel.send(
         `You did not use the correct formatting for the time!`
       );
-    if (isNaN(args[0][0])) return message.channel.send(`That is not a number!`);
+    if (isNaN(args[0][0])) return message.channel.send(`That is not a number! ${opps}`);
     let channel = message.mentions.channels.first();
     if (!channel)
       return message.channel.send(
-        `I could not find that channel in the guild!`
+        `I could not find that channel in the guild! ${think}`
       );
     let prize = args.slice(2).join(" ");
     let time = args[0]
+    const gift = message.client.emojis.cache.find(em => em.name === "blobgift");
+    const party = message.client.emojis.cache.find(em => em.name === "ablobcolorshift");
     if (!prize) return message.channel.send(`No prize specified!`);
-    message.channel.send(`Giveaway created in ${channel}`);
+    message.channel.send(`Giveaway successfully created in ${channel} for ${prize} made by ${message.author} ${gift}`);
     let Embed = new MessageEmbed()
       .setTitle(`${prize}`)
       .setDescription(
@@ -49,7 +53,7 @@ module.exports = {
         .users.cache.filter((u) => !u.bot)
         .random();
       channel.send(
-        `Congratulations ${winner}! You won ${prize}! ${gift}`
+        `${party} Congratulations ${winner}! You won ${prize}! ${gift}`
       );
     }, ms(args[0]));
   },
