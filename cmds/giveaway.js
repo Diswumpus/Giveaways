@@ -35,22 +35,23 @@ module.exports = {
         `${message.author} is hosting a giveaway for **${prize}!**`
       )
       .setFooter("React to join the giveaway")
-      .setFooter(`Good luck ${gift}`)
+      .setFooter(`Good luck`, gift.url)
       .addField("Time left:", `${time}`)
       .setTimestamp(Date.now() + ms(args[0]))
       .setColor(`AQUA`);
     let m = await channel.send(Embed);
-    m.react("🎉");
+    let reactId = gift; //"🎉"; //'836423414419161138';
+    m.react(reactId);
     setTimeout(() => {
-      if (m.reactions.cache.get("🎉").count <= 1) {
-        message.channel.send(`Reactions: ${m.reactions.cache.get("🎉").count}`);
+      if (m.reactions.cache.get(reactId).count <= 1) {
+        message.channel.send(`Reactions: ${m.reactions.cache.get(reactId).count}`);
         return message.channel.send(
           `Not enough people reacted for me to start draw a winner!`
         );
       }
       const gift = message.client.emojis.cache.find(em => em.name === "blobgift");
       let winner = m.reactions.cache
-        .get("🎉")
+        .get(reactId)
         .users.cache.filter((u) => !u.bot)
         .random();
       channel.send(
