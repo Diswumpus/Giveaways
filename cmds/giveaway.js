@@ -35,6 +35,7 @@ module.exports = {
         `${message.author} is hosting a giveaway for **${prize}!**`
       )
       .setFooter("React to join the giveaway")
+      .setFooter(`Good luck ${gift}`)
       .addField("Time left:", `${time}`)
       .setTimestamp(Date.now() + ms(args[0]))
       .setColor(`AQUA`);
