@@ -6,7 +6,7 @@ module.exports = {
   usage: "<time> <channel> <prize>",
   category: "fun",
   execute: async (message, Member, args) => {
-    if (!args[0]) return message.channel.send(`You did not specify your time!`);
+    if (!args[0]) return message.channel.send(`You did not specify your time! ${opps}`);
     const opps = message.client.emojis.cache.find(em => em.name === "ablobglitch");
     const think = message.client.emojis.cache.find(em => em.name === "ablobthinkingeyes");
     if (
@@ -15,7 +15,7 @@ module.exports = {
       !args[0].endsWith("m")
     )
       return message.channel.send(
-        `You did not use the correct formatting for the time!`
+        `You did not use the correct formatting for the time! ${opps}`
       );
     if (isNaN(args[0][0])) return message.channel.send(`That is not a number! ${opps}`);
     let channel = message.mentions.channels.first();
@@ -40,22 +40,21 @@ module.exports = {
       .setTimestamp(Date.now() + ms(args[0]))
       .setColor(`AQUA`);
     let m = await channel.send(Embed);
-    let reactId = gift; //"🎉"; //'836423414419161138';
-    m.react(reactId);
+    let react = gift; //"🎉"; //'836423414419161138';
+    m.react(react);
     setTimeout(() => {
-      if (m.reactions.cache.get(reactId).count <= 1) {
-        message.channel.send(`Reactions: ${m.reactions.cache.get(reactId).count}`);
+      if (m.reactions.cache.get(react.id).count <= 1) {
+        message.channel.send(`Reactions: ${m.reactions.cache.get(react).count}`);
         return message.channel.send(
-          `Not enough people reacted for me to start draw a winner!`
+          `Not enough people reacted for me to start draw a winner! ${opps}`
         );
       }
-      const gift = message.client.emojis.cache.find(em => em.name === "blobgift");
       let winner = m.reactions.cache
-        .get(reactId)
+        .get(react.id)
         .users.cache.filter((u) => !u.bot)
         .random();
       channel.send(
-        `${party} Congratulations ${winner}! You won ${prize}! ${gift}`
+        `${party} Congratulations ${winner}! You won **${prize}**! ${gift}`
       );
     }, ms(args[0]));
   },
