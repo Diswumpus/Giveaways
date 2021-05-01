@@ -3,7 +3,7 @@ const ms = require("ms");
 module.exports = {
   name: "giveaway",
   description: "Create a simple giveaway",
-  usage: "<time> <channel> <prize>",
+  usage: "<time> <channel> <emoji> <prize>",
   category: "fun",
   execute: async (message, Member, args) => {
     if (!args[0]) return message.channel.send(`You did not specify your time! ${opps}`);
@@ -23,9 +23,19 @@ module.exports = {
       return message.channel.send(
         `I could not find that channel in the guild! ${think}`
       );
-    let prize = args.slice(2).join(" ");
-    let time = args[0]
-    const gift = message.client.emojis.cache.find(em => em.name === "blobgift");
+    function isCustomEmoji(emoji) {
+      return emoji.split(":").length == 1 ? false : true;
+    }      
+    let prize = args.slice(3).join(" ");
+    let time = args[0];
+    let emoji = args[2]; //.slice(3).join(" ");
+    let reacty = emoji; // message.client.emojis.cache.find(em => em ==);
+    if (isCustomEmoji(emoji))
+    {
+      let emojiId = emoji.split(":")[2].replace('>','');
+      reacty = message.client.emojis.cache.find(e => e.id === emojiId);
+    }
+    const gift = message.client.emojis.cache.find(em => em.name === "blobgift1");
     const party = message.client.emojis.cache.find(em => em.name === "ablobcolorshift");
     if (!prize) return message.channel.send(`No prize specified!`);
     message.channel.send(`Giveaway successfully created in ${channel} for ${prize} made by ${message.author} ${gift}`);
@@ -40,7 +50,7 @@ module.exports = {
       .setTimestamp(Date.now() + ms(args[0]))
       .setColor(`AQUA`);
     let m = await channel.send(Embed);
-    let react = gift; //"🎉"; //'836423414419161138';
+    let react = reacty; //"🎉"; //'836423414419161138';
     m.react(react);
     setTimeout(() => {
       if (m.reactions.cache.get(react.id).count <= 1) {
