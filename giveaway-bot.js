@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const config = require('./config.json');
 const fs = require('fs');
 const opps = message.client.emojis.cache.find(em => em.name === "ablobglitch");
+const gift = message.client.emojis.cache.find(em => em.name === "blobgift1");
 
 
 //const keyv = new Keyv('sqlite:react.sqlite');
@@ -11,7 +12,7 @@ const client = new Discord.Client({
     presence: {
         status: 'online',
         activity: {
-            name: `.help giveaway`,
+            name: `.help giveaway ${gift}`,
             type: 'PLAYING',
         },
     },
