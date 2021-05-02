@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const ms = require("ms");
 module.exports = {
   name: "giveaway",
-  description: "Create a simple giveaway",
+  description: "Create a giveaway!",
   usage: "<time> <channel> <emoji> <prize>",
   category: "fun",
   execute: async (message, Member, args) => {

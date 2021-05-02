@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const config = require('./config.json');
 const fs = require('fs');
+const opps = message.client.emojis.cache.find(em => em.name === "ablobglitch");
 
 
 //const keyv = new Keyv('sqlite:react.sqlite');
@@ -10,7 +11,7 @@ const client = new Discord.Client({
     presence: {
         status: 'online',
         activity: {
-            name: `.help`,
+            name: `.help giveaway`,
             type: 'PLAYING',
         },
     },
@@ -20,7 +21,7 @@ const roleName = '2 Month Supporter';
 //client.snipes = new Discord.Collection();
 
 client.once('ready', () => {
-    console.log('Ready!');
+    console.log('Im Ready!');
 });
 
 client.commands = new Discord.Collection();
@@ -66,14 +67,14 @@ client.on('message', message => {
 
         const command = client.commands.get(commandName);
         if (!command) {
-            message.reply(`sorry bud - not sure what you are asking for... what is '${commandName}'???`);
+            message.reply(`Sorry i don't think ${commandName} is possible ${opps}`);
         }
         else {
             try {
                 command.execute(message, Member, args);
             } catch (error) {
                 console.error(error);
-                message.reply("sorry I'm not feeling well - I think it is the pizza from last night");
+                message.reply(`Something went very wrong ${opps}`);
             }
         }
     }
