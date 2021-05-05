@@ -12,7 +12,8 @@ module.exports = {
     if (
       !args[0].endsWith("d") &&
       !args[0].endsWith("h") &&
-      !args[0].endsWith("m")
+      !args[0].endsWith("m") && 
+      !args[0].endsWith("s") 
     )
       return message.channel.send(
         `You did not use the correct formatting for the time! ${opps}`
@@ -53,19 +54,24 @@ module.exports = {
     let react = reacty; //"🎉"; //'836423414419161138';
     m.react(react);
     setTimeout(() => {
-      if (m.reactions.cache.get(react.id).count <= 1) {
-        message.channel.send(`Reactions: ${m.reactions.cache.get(react).count}`);
-        return message.channel.send(
-          `Not enough people reacted for me to start draw a winner! ${opps}`
+      try {
+        if (m.reactions.cache.get(react.id).count <= 1) {
+          message.channel.send(`Reactions: ${m.reactions.cache.get(react).count}`);
+          return message.channel.send(
+            `Not enough people reacted for me to start draw a winner! ${opps}`
+          );
+        }
+        let winner = m.reactions.cache
+          .get(react.id)
+          .users.cache.filter((u) => !u.bot)
+          .random();
+        channel.send(
+          `${party} Congratulations ${winner}! You won **${prize}**! ${gift}`
         );
-      }
-      let winner = m.reactions.cache
-        .get(react.id)
-        .users.cache.filter((u) => !u.bot)
-        .random();
-      channel.send(
-        `${party} Congratulations ${winner}! You won **${prize}**! ${gift}`
-      );
+      } catch (error) {
+        console.error(error);
+        message.reply(`Your present got lost in transit :truck:`);
+    }      
     }, ms(args[0]));
   },
 };
