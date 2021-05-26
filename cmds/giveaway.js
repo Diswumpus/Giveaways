@@ -52,6 +52,7 @@ module.exports = {
       .setTimestamp(Date.now() + ms(args[0]))
       .setColor(`AQUA`);
     let m = await channel.send(Embed);
+    message.client.giveaways.set(m.id, m);
     let react = reacty; //"🎉"; //'836423414419161138';
     m.react(react);
     setTimeout(() => {

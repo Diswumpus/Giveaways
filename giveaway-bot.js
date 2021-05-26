@@ -6,14 +6,14 @@ const fs = require('fs');
 //keyv.on('error', err => console.error('Keyv connection error:', err));
 // at the beginning of your code:
 const client = new Discord.Client({
+    intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_PRESENCES", "GUILD_INTEGRATIONS", "GUILD_VOICE_STATES", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "DIRECT_MESSAGES", "DIRECT_MESSAGE_REACTIONS"],
+    
+
     presence: {
         status: 'online',
-        activity: {
-            name: `.help giveaway`,
-            type: 'PLAYING',
-        },
-    },
-});
+        activities: [ { name: `Ready to create a giveaway?`, type: 'PLAYING'}],       }
+    });
+    //Slash commands are out!!
 const roleName = '2 Month Supporter';
 
 //client.snipes = new Discord.Collection();
@@ -23,9 +23,40 @@ client.once('ready', () => {
 });
 
 client.commands = new Discord.Collection();
+client.giveaways = new Discord.Collection();
+client.slashcmds = new Discord.Collection();
 client.config = config;
 
 const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
+const slashFiles = fs.readdirSync('./slash').filter(file => file.endsWith('.js'));
+
+// Here we load all the commands into client.commands
+for (const file of slashFiles) {
+    const command = require(`./slash/${file}`);
+    console.log(`loading slash/${file}`);
+    // set a new item in the Collection
+    // with the key as the command name and the value as the exported module
+    client.slashcmds.set(command.name, command);
+}
+client.on('interaction', async interaction => {
+	if (!interaction.isCommand()) return;
+    console.log(`received interaction ${interaction.commandName}`);
+    const commandName = interaction.commandName;
+
+    const command = client.slashcmds.get(commandName);
+    if (!command) {
+        // interaction.reply(`Sorry i don't think /${commandName} is possible ${opps}`);
+    }
+    else {
+        try {
+            await command.execute(client, interaction);
+        } catch (error) {
+            console.error(error);
+            // interaction.reply(`Something went very wrong ${opps}`);
+        }
+    }
+});
+
 
 // Here we load all the commands into client.commands
 for (const file of commandFiles) {
