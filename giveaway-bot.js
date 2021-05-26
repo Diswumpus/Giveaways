@@ -113,7 +113,7 @@ client.on('message', message => {
 
 });
 
-console.log("loggin client");
+console.log("logging client");
 
 client.login(config.token);
 //client.user.setActivity('-help');
