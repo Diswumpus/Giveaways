@@ -17,7 +17,6 @@ module.exports = {
         const length = interaction.options[2].value;
         const description = interaction.options[3].value;
         const emoji = interaction.options[4].value;
-        await interaction.reply(`Giveaway created in ${channel}`);
         const atada = client.emojis.cache.get('836421450252550199');
         const timer = client.emojis.cache.get('846868929065517066');
         const firee = client.emojis.cache.get('846908253740204072');
@@ -48,7 +47,11 @@ module.exports = {
             //m.edit(gembed);
         }
         m.react(emoji);
-
+        const giveawyastarted = new Discord.MessageEmbed()
+        .setTitle(`${firee}**Giveaway has started!**`)
+        .setDescription(`[View Giveaway](${m.url})`)
+        .setColor(colorr)
+        await interaction.reply(giveawyastarted);
         const giveawayend = new Discord.MessageEmbed()
         .setAuthor(`${title}`)
         .setTitle(`${firee} Giveaway has ended`)
