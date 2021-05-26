@@ -29,6 +29,7 @@ module.exports = {
         const gembed = new Discord.MessageEmbed()
             .setAuthor(`${length}`, timer.url)
             .setTitle(`${title}`)
+            .setDescription(`${description}`)
             .setFooter(`1 Winner | Ends => ${length}`)
             .setColor(colorr)
             .setTimestamp(Date.now() + ms(length))
