@@ -62,9 +62,14 @@ client.on('interaction', async interaction => {
 
 client.on("message", message => {
     const args = message.content.split(" ").slice(1);
-  
+    const clean = text => {
+        if (typeof(text) === "string")
+          return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+        else
+            return text;
+      }
     if (message.content.startsWith(config.prefix + "eval")) {
-      if(message.author.id !== owner-id.ownerID) return;
+      if(message.author.id !== config.ownerID) return;
       try {
         const code = args.join(" ");
         let evaled = eval(code);
