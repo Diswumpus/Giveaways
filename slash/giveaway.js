@@ -20,6 +20,7 @@ module.exports = {
         await interaction.reply(`Giveaway created in ${channel}`);
         const atada = client.emojis.cache.get('836421450252550199');
         const timer = client.emojis.cache.get('846868929065517066');
+        const firee = client.emojis.cache.get('846908253740204072');
         const colorr = '#90254C'
         //const channel = client.channels.cache.get(channel)
         if (interaction.options[5]) {
@@ -47,9 +48,17 @@ module.exports = {
         }
         m.react(emoji);
 
+        const giveawayend = new Discord.MessageEmbed()
+        .setAuthor(`${title}`)
+        .setTitle(`${firee} Giveaway has ended`)
+        .setFooter(`Ended =>`)
+        .setColor(colorr)
+        .setTimestamp(Date.now() + ms(length))
+
+
         setTimeout(() => {
             try {
-                
+                m.edit(giveawayend)
                 const xtadaembed = new Discord.MessageEmbed()
                     .setTitle('No winner')
                     .setDescription(`Nobody has reacted!`)
