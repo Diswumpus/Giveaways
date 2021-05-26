@@ -41,6 +41,12 @@ module.exports = {
 				required: true,
 			},
 			{
+				name: 'winners',
+				type: 'STRING',
+				description: 'How many winners?',
+				required: true,
+			},
+			{
 				name: 'ping',
 				type: 'ROLE',
 				description: 'What ping should appear when i start the giveaway?',

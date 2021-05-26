@@ -22,7 +22,7 @@ module.exports = {
         const firee = client.emojis.cache.get('846908253740204072');
         const colorr = '#90254C'
         //const channel = client.channels.cache.get(channel)
-        if (interaction.options[5]) {
+        if (interaction.options[5].role) {
             channel.send(`**${atada} GIVEAWAY ${interaction.options[5].role} ${atada}**`)
         }
         const gembed = new Discord.MessageEmbed()
@@ -33,19 +33,19 @@ module.exports = {
             .setColor(colorr)
             .setTimestamp(Date.now() + ms(length))
         const m = await channel.send(gembed);
-        const countdownInterval = 5000;
-        var refreshIntervalId = setInterval(myCallback, countdownInterval);
-        let totalSeconds = ms(length);
-        function myCallback() {
-            totalSeconds = totalSeconds - countdownInterval;
-            if (totalSeconds <= 0)
-            {
-                console.log(`Clearing interval counter... ${totalSeconds}` )
-                clearInterval(refreshIntervalId);
-            }
-            gembed.setAuthor(`${millisToMinutesAndSeconds(ms(length) - totalSeconds)}`, timer.url)
-            //m.edit(gembed);
-        }
+        // const countdownInterval = 5000;
+        // var refreshIntervalId = setInterval(myCallback, countdownInterval);
+        // let totalSeconds = ms(length);
+        // function myCallback() {
+        //     totalSeconds = totalSeconds - countdownInterval;
+        //     if (totalSeconds <= 0)
+        //     {
+        //         console.log(`Clearing interval counter... ${totalSeconds}` )
+        //         clearInterval(refreshIntervalId);
+        //     }
+        //     gembed.setAuthor(`${millisToMinutesAndSeconds(ms(length) - totalSeconds)}`, timer.url)
+        //     //m.edit(gembed);
+        // }
         m.react(emoji);
         const giveawyastarted = new Discord.MessageEmbed()
         .setTitle(`${firee}**Giveaway has started!**`)
@@ -83,6 +83,12 @@ module.exports = {
                 channel.send(
                     `${winner} - ${emoji}`
                 );
+                const winmessagetwo = new Discord.MessageEmbed()
+                .setTitle(`You have won ${title}!`)
+                .setDescription(`Yay! You have won [this](${m.url})`)
+                .setFooter(`Giftbox`, firee.url)
+                .setColor(colorr)
+                  winner.send(winmessagetwo)
                 const tadaembed = new Discord.MessageEmbed()
                     .setTitle('Congratulations!')
                     .setDescription(`${winner} has won [${title}](${m.url})!`)
