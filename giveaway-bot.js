@@ -121,7 +121,7 @@ client.on('message', message => {
 
         const command = client.commands.get(commandName);
         if (!command) {
-            message.reply(`Sorry i don't think ${commandName} is possible ${opps}`);
+            //message.reply(`Sorry i don't think ${commandName} is possible ${opps}`);
         }
         else {
             try {
