@@ -45,12 +45,15 @@ client.on('interaction', async interaction => {
 
     const command = client.slashcmds.get(commandName);
     if (!command) {
+        console.error(`Cannot find ${commandName}`);
         // interaction.reply(`Sorry i don't think /${commandName} is possible ${opps}`);
     }
     else {
         try {
+            console.log(`Executing ${commandName}`);
             await command.execute(client, interaction);
         } catch (error) {
+            console.error(`Error with ${commandName}`);
             console.error(error);
             // interaction.reply(`Something went very wrong ${opps}`);
         }
@@ -110,6 +113,7 @@ client.on('message', message => {
 
 });
 
+console.log("loggin client");
 
 client.login(config.token);
 //client.user.setActivity('-help');
