@@ -9,11 +9,19 @@ const millisToMinutesAndSeconds = (millis) => {
     return `${minutes}m ${(seconds < 10 ? "0" : "")}${seconds}s`;
 }
 
+const shuffleArray = (a) => { // Fisher-Yates shuffle, no side effects
+    if (a.length === 0) return a;
+    var i = a.length, t, j;
+    a = a.slice();
+    while (--i) t = a[i], a[i] = a[j = ~~(Math.random() * (i + 1))], a[j] = t;
+    return a;
+}
+
 module.exports = {
     name: 'giveaway',
     async execute(client, interaction) {
         if (!interaction.member.permissions.has('MANAGE_MESSAGES')) {
-        interaction.reply(`You don't have permissions!`)
+            interaction.reply(`You don't have permissions!`)
         }
         if (interaction.member.permissions.has('MANAGE_MESSAGES')) {
             const title = interaction.options[0].value;
@@ -21,6 +29,7 @@ module.exports = {
             const length = interaction.options[2].value;
             const description = interaction.options[3].value;
             const emoji = interaction.options[4].value;
+            const winnerCount = interaction.options[5].value;
             const atada = client.emojis.cache.get('836421450252550199');
             const timer = client.emojis.cache.get('846868929065517066');
             const firee = client.emojis.cache.get('846908253740204072');
@@ -47,6 +56,10 @@ module.exports = {
             //         console.log(`Clearing interval counter... ${totalSeconds}` )
             //         clearInterval(refreshIntervalId);
             //     }
+            //    if(scores[i] === 100){
+    //     console.log('🎈🥳✨ Top score!! 🎁🎉🎊')
+    //     break;
+    // }
             //     gembed.setAuthor(`${millisToMinutesAndSeconds(ms(length) - totalSeconds)}`, timer.url)
             //     //m.edit(gembed);
             // }
@@ -71,6 +84,7 @@ module.exports = {
                         .setTitle('No winner')
                         .setDescription(`Nobody has reacted!`)
                         .setColor(colorr)
+
                     const currentReact = m.reactions.cache.first();
                     if (!currentReact) {
                         channel.send(`${emoji}`);
@@ -80,23 +94,33 @@ module.exports = {
                     //     channel.send(`${emoji}`);
                     //     return channel.send(xtadaembed)
                     // }
-                    let winner = currentReact
-                        .users.cache.filter((u) => !u.bot)
-                        .random();
-                    channel.send(
-                        `${winner} - ${emoji}`
-                    );
-                    const winmessagetwo = new Discord.MessageEmbed()
-                        .setTitle(`You have won ${title}!`)
-                        .setDescription(`Yay! You have won [this](${m.url})`)
-                        .setFooter(`Giftbox`, firee.url)
-                        .setColor(colorr)
-                    winner.send(winmessagetwo)
-                    const tadaembed = new Discord.MessageEmbed()
+                    let winners = shuffleArray(Array.from(currentReact.users.cache.filter((u) => !u.bot).map(t => t)));
+                    for(let il = 0; il < Math.min(winnerCount,winners.length); il++){
+                        let winner = winners[il];
+                        const winmessagetwo = new Discord.MessageEmbed()
+                            .setTitle(`You have won ${title}!`)
+                            .setDescription(`Yay! You have won [this](${m.url})`)
+                            .setFooter(`Giftbox`, firee.url)
+                            .setColor(colorr)
+                        winner.send(winmessagetwo)
+                    }
+                    winnerss = winners.map(winnerr => winnerr).join(', ')
+                    if(winners.length > 1){
+                        channel.send(`${winnerss} - ${emoji}`);
+                            const tadaembed = new Discord.MessageEmbed()
+                            .setTitle('Congratulations!')
+                            .setDescription(`You have won the giveaway for [${title}](${m.url})!`)
+                            .setColor(colorr)
+                        channel.send(tadaembed)
+                    } else {
+                        let winner = winners[0];
+                        channel.send(`${winner} - ${emoji}`);
+                        const tadaembed = new Discord.MessageEmbed()
                         .setTitle('Congratulations!')
-                        .setDescription(`${winner} has won [${title}](${m.url})!`)
+                        .setDescription(`You have won the giveaway for [${title}](${m.url})!`)
                         .setColor(colorr)
                     channel.send(tadaembed)
+                        }
                 } catch (error) {
                     console.error(error);
                 }
