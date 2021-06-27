@@ -32,19 +32,19 @@ module.exports = {
 				name: 'description',
 				type: 'STRING',
 				description: 'Give some extra info',
-				required: true,
+				required: false,
 			},
 			{
 				name: 'emoji',
 				type: 'STRING',
 				description: 'What emoji?',
-				required: true,
+				required: false,
 			},
 			{
 				name: 'winners',
 				type: 'STRING',
 				description: 'How many winners?',
-				required: true,
+				required: false,
 			},
 			{
 				name: 'ping',
@@ -54,7 +54,7 @@ module.exports = {
 			}]
 		};
 
-		//const command = await client.guilds.cache.get('842575277249921074')?.commands.create(data);
+		const command = await client.guilds.cache.get('842575277249921074')?.commands.create(data);
 		//await command.setPermissions(permissions);
 		console.log(command);
 	}
