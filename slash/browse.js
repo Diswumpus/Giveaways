@@ -14,7 +14,7 @@ module.exports = {
         .setTitle('Giveaway\'s')
         .setColor(colorr)
         docs.forEach(e => {
-            bembed.addField(`Prize: ${e.prize}`, `[${emoji1}${emoji2}${emoji3}](${e.invite})`, true)
+            bembed.addField(`Prize: ${e.prize ?? 'Unknown'}`, `[${emoji1}${emoji2}${emoji3}](${e.invite})`, true)
         });
         await interaction.reply(bembed);
     }
