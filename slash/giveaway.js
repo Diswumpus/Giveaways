@@ -60,7 +60,7 @@ module.exports = {
             prize: String,
             invite: String,
             */
-            let invite = await interaction.channel.createInvite({
+            let invite = await channel.createInvite({
                 maxAge: 0, // 0 = infinite expiration
                 maxUses: 0 // 0 = infinite uses
               }).catch(console.error);
